@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: elementary_tab_renderer
+Bundle-SymbolicName: io.github.pyvesb.elementary_tab_renderer
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: io.github.pyvesb.elementary.tab.renderer
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.e4.ui.css.swt,
+ org.eclipse.swt,
+ javax.inject
