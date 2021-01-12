@@ -49,6 +49,9 @@ public class ElementaryCTabFolderRenderer extends CTabFolderRenderer implements 
 	Rectangle rectShape;
 
 	Color outerKeyline, selectedTabFillColor, tabOutlineColor, hotUnselectedTabsColorBackground, selectedTabHighlightColor;
+	
+	Color[] unselectedTabsColors;
+	int[] unselectedTabsPercents;
 
 	int paddingLeft = 0, paddingRight = 0, paddingTop = 0, paddingBottom = 0;
 
@@ -306,10 +309,29 @@ public class ElementaryCTabFolderRenderer extends CTabFolderRenderer implements 
 		int y = (onBottom) ? 0 : partHeaderBounds.y + partHeaderBounds.height - 1;
 		int height = (onBottom) ? parentBounds.height - partHeaderBounds.height + 2 * paddingTop + 2 * borderTop
 				: parentBounds.height - partHeaderBounds.height;
-		
+		drawUnselectedTabBackground(gc, partHeaderBounds, state, true, null);
 		gc.setBackground(selectedTabFillColor);
 		gc.fillRectangle(partHeaderBounds.x, y, partHeaderBounds.width, height);
+
 	}
+	
+	private void drawUnselectedTabBackground(GC gc, Rectangle partHeaderBounds, int state, boolean vertical,
+			Color defaultBackground) {
+
+		if (unselectedTabsColors == null) {
+			unselectedTabsColors = new Color[] { gc.getDevice().getSystemColor(SWT.COLOR_WHITE) };
+			unselectedTabsPercents = new int[] { 100 };
+		}
+
+		
+		 super.draw(PART_BACKGROUND, state, partHeaderBounds, gc);
+		 // TODO: couldn't do the following, so work around is on line 330
+//		 drawBackground(gc, partHeaderBounds.x, partHeaderBounds.y - 1, partHeaderBounds.width, partHeaderBounds.height,
+//					defaultBackground, unselectedTabsColors, unselectedTabsPercents, vertical);
+		 
+		
+	}
+	
 	
 	public Rectangle getPadding() {
 		return new Rectangle(paddingTop, paddingRight, paddingBottom, paddingLeft);
@@ -364,10 +386,16 @@ public class ElementaryCTabFolderRenderer extends CTabFolderRenderer implements 
 	}
 
 	@Override
-	public void setUnselectedTabsColor(Color color) {}
+	public void setUnselectedTabsColor(Color color) {
+		setUnselectedTabsColor(new Color[] { color }, new int[] { 100 });
+	}
 
 	@Override
-	public void setUnselectedTabsColor(Color[] colors, int[] percents) {}
+	public void setUnselectedTabsColor(Color[] colors, int[] percents) {
+		unselectedTabsColors = colors;
+		unselectedTabsPercents = percents;
+		parent.redraw();
+	}
 	
 	@Override
 	public void setCornerRadius(int radius) {}
